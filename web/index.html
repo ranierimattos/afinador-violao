@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Afinador</title>
+  <meta name="description" content="Afinador de violão simples: abra, toque uma corda e veja se está afinada.">
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <style>
+    :root { --bg: #121212; --text: #eee; --dim: #888; --faint: #555; --green: #4caf50; --yellow: #ffc107; --red: #f44336; }
+    * { box-sizing: border-box; margin: 0; }
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; }
+    body {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      max-width: 480px; margin: 0 auto; min-height: 100dvh;
+      padding: max(24px, env(safe-area-inset-top)) 24px max(16px, env(safe-area-inset-bottom));
+      user-select: none; -webkit-user-select: none;
+    }
+    h1 { font-size: 20px; font-weight: normal; color: var(--dim); }
+    #note { font-size: 96px; font-weight: bold; margin-top: 32px; line-height: 1.1; }
+    #freq { font-size: 18px; color: var(--dim); min-height: 1.4em; }
+    svg { width: 100%; margin-top: 16px; }
+    .tick { stroke: var(--dim); stroke-width: 2; }
+    .tick.zero { stroke: var(--green); }
+    #needle { stroke-width: 4; stroke-linecap: round; transition: transform 0.1s; }
+    #hint { font-size: 20px; margin-top: 8px; min-height: 1.4em; }
+    button {
+      margin-top: 8px; padding: 12px 28px; font: inherit; font-size: 18px; color: var(--bg);
+      background: var(--green); border: 0; border-radius: 24px; cursor: pointer;
+    }
+    #strings { display: flex; width: 100%; margin-top: auto; padding-top: 24px; }
+    #strings span { flex: 1; font-size: 18px; color: var(--dim); }
+    #strings span.on { color: var(--green); font-weight: bold; }
+    footer a { display: block; margin-top: 24px; font-size: 11px; color: var(--faint); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h1>Afinador</h1>
+  <div id="note">–</div>
+  <div id="freq"></div>
+  <svg viewBox="-110 -105 220 115" aria-hidden="true">
+    <g id="ticks"></g>
+    <text x="-90" y="-35" fill="#888" font-size="12" text-anchor="middle">-50</text>
+    <text x="90" y="-35" fill="#888" font-size="12" text-anchor="middle">+50</text>
+    <g id="needle" visibility="hidden">
+      <line x1="0" y1="0" x2="0" y2="-95" stroke="currentColor" />
+      <circle r="6" fill="currentColor" />
+    </g>
+  </svg>
+  <div id="hint">Toque em Começar e depois numa corda solta</div>
+  <button id="start">Começar</button>
+  <div id="strings"></div>
+  <footer>
+    <a href="https://github.com/ranierimattos/afinador-violao" target="_blank" rel="noopener">Desejado por Ranieri e realizado pelo Claude Code em 32min. Thx Anthropic</a>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
