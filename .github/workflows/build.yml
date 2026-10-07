@@ -1,9 +1,11 @@
-name: Build
+name: Android
 
 on:
   push:
     branches: [main]
+    paths-ignore: ["web/**", ".github/workflows/web.yml", "README.md"]
   pull_request:
+    paths-ignore: ["web/**", "README.md"]
   workflow_dispatch:
 
 jobs:
