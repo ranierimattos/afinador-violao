@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Afinador</string>
+    <string name="play_string">Toque uma corda solta</string>
+    <string name="in_tune">Afinado!</string>
+    <string name="tighten">Muito grave: aperte a corda</string>
+    <string name="loosen">Muito agudo: afrouxe a corda</string>
+    <string name="no_permission">Permita o uso do microfone para afinar</string>
+    <string name="frequency_format">%1$.1f Hz  ·  %2$+.0f cents</string>
+    <string name="credit">Desejado por Ranieri e realizado pelo Claude Code em 32min. Thx Anthropic</string>
+    <string name="repo_url" translatable="false">https://github.com/ranierimattos/afinador-violao</string>
+</resources>
