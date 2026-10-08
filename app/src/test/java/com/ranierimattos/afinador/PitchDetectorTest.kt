@@ -20,11 +20,13 @@ class PitchDetectorTest {
     }
 
     @Test
-    fun detectsOpenStrings() {
-        for (note in Tuning.STRINGS) {
-            val f = detector.detect(pluck(note.frequency))
-            assertNotNull("sem leitura para ${note.label}", f)
-            assertEquals("frequência de ${note.label}", note.frequency, f!!, 0.5)
+    fun detectsOpenStringsOfEveryPreset() {
+        for (preset in Tuning.GUITAR + Tuning.BASS) {
+            for (note in preset.strings) {
+                val f = detector.detect(pluck(note.frequency), note.frequency * 0.7)
+                assertNotNull("sem leitura para ${preset.name} ${note.label}", f)
+                assertEquals("frequência de ${preset.name} ${note.label}", note.frequency, f!!, 0.5)
+            }
         }
     }
 

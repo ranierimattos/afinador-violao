@@ -22,25 +22,38 @@
       user-select: none; -webkit-user-select: none;
     }
     h1 { font-size: 20px; font-weight: normal; color: var(--dim); }
-    #note { font-size: 96px; font-weight: bold; margin-top: 32px; line-height: 1.1; }
+    #controls { display: flex; gap: 8px; margin-top: 16px; }
+    #instrument { display: flex; border: 1px solid var(--faint); border-radius: 18px; overflow: hidden; }
+    #instrument button, select {
+      font: inherit; font-size: 15px; color: var(--dim); background: none; border: 0; padding: 6px 14px; margin: 0;
+      border-radius: 0; cursor: pointer;
+    }
+    #instrument button.on { color: var(--bg); background: var(--dim); }
+    select { border: 1px solid var(--faint); border-radius: 18px; background: var(--bg); }
+    #note { font-size: 96px; font-weight: bold; margin-top: 16px; line-height: 1.1; }
     #freq { font-size: 18px; color: var(--dim); min-height: 1.4em; }
     svg { width: 100%; margin-top: 16px; }
     .tick { stroke: var(--dim); stroke-width: 2; }
     .tick.zero { stroke: var(--green); }
     #needle { stroke-width: 4; stroke-linecap: round; transition: transform 0.1s; }
     #hint { font-size: 20px; margin-top: 8px; min-height: 1.4em; }
-    button {
+    #start {
       margin-top: 8px; padding: 12px 28px; font: inherit; font-size: 18px; color: var(--bg);
       background: var(--green); border: 0; border-radius: 24px; cursor: pointer;
     }
     #strings { display: flex; width: 100%; margin-top: auto; padding-top: 24px; }
     #strings span { flex: 1; font-size: 18px; color: var(--dim); }
     #strings span.on { color: var(--green); font-weight: bold; }
-    footer a { display: block; margin-top: 24px; font-size: 11px; color: var(--faint); text-decoration: none; }
+    footer { margin-top: 24px; font-size: 11px; color: var(--faint); }
+    footer a { display: block; margin-top: 4px; color: inherit; text-decoration: none; }
   </style>
 </head>
 <body>
   <h1>Afinador</h1>
+  <div id="controls">
+    <div id="instrument"><button value="violao">Violão</button><button value="baixo">Baixo</button></div>
+    <select id="tuning" aria-label="Afinação"></select>
+  </div>
   <div id="note">–</div>
   <div id="freq"></div>
   <svg viewBox="-110 -105 220 115" aria-hidden="true">
@@ -56,6 +69,7 @@
   <button id="start">Começar</button>
   <div id="strings"></div>
   <footer>
+    <div id="stats"></div>
     <a href="https://github.com/ranierimattos/afinador-violao" target="_blank" rel="noopener">Desejado por Ranieri e realizado pelo Claude Code em 32min. Thx Anthropic</a>
   </footer>
   <script type="module" src="app.js"></script>

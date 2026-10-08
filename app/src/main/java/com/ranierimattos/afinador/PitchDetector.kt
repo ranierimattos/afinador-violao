@@ -8,13 +8,12 @@ import kotlin.math.sqrt
  */
 class PitchDetector(
     private val sampleRate: Int,
-    private val minFreq: Double = 60.0,
     private val maxFreq: Double = 1000.0,
     private val threshold: Double = 0.15,
     private val minRms: Double = 0.01,
 ) {
     /** Devolve a frequência em Hz, ou null em silêncio / sem tom claro. */
-    fun detect(samples: FloatArray): Double? {
+    fun detect(samples: FloatArray, minFreq: Double = 60.0): Double? {
         val minLag = (sampleRate / maxFreq).toInt().coerceAtLeast(2)
         val maxLag = (sampleRate / minFreq).toInt()
         val n = samples.size - maxLag

@@ -9,6 +9,9 @@ import android.os.Looper
 
 /** Lê o microfone numa thread e entrega a frequência (ou null) na thread principal. */
 class AudioInput(private val onPitch: (Double?) -> Unit) {
+    /** Menor frequência procurada: um pouco abaixo da corda mais grave da afinação. */
+    @Volatile var minFreq = 60.0
+
     private val main = Handler(Looper.getMainLooper())
     @Volatile private var running = false
     private var thread: Thread? = null
@@ -48,7 +51,7 @@ class AudioInput(private val onPitch: (Double?) -> Unit) {
             System.arraycopy(window, HOP, window, 0, WINDOW - HOP)
             for (i in 0 until HOP) window[WINDOW - HOP + i] = chunk[i] / 32768f
 
-            val pitch = detector.detect(window)
+            val pitch = detector.detect(window, minFreq)
             if (pitch == null) recent.clear() else recent.addLast(pitch)
             if (recent.size > 5) recent.removeFirst()
             // Mediana das últimas leituras: o ponteiro não treme.

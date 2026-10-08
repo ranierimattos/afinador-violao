@@ -8,15 +8,30 @@ export function noteFromMidi(midi) {
   return { label: name + octave, frequency: 440 * 2 ** ((midi - 69) / 12) };
 }
 
-/** Cordas soltas do violão, da 6ª (mais grave) para a 1ª: E2 A2 D3 G3 B3 E4. */
-export const STRINGS = [40, 45, 50, 55, 59, 64].map(noteFromMidi);
+/** Afinações por instrumento: cordas soltas (em notas MIDI) da mais grave para a mais aguda. */
+export const TUNINGS = {
+  violao: [
+    { name: "Padrão", midi: [40, 45, 50, 55, 59, 64] }, // E A D G B E
+    { name: "Drop D", midi: [38, 45, 50, 55, 59, 64] }, // D A D G B E
+    { name: "Meio tom abaixo", midi: [39, 44, 49, 54, 58, 63] },
+    { name: "Open G", midi: [38, 43, 50, 55, 59, 62] }, // D G D G B D
+    { name: "DADGAD", midi: [38, 45, 50, 55, 57, 62] },
+  ],
+  baixo: [
+    { name: "Padrão", midi: [28, 33, 38, 43] }, // E A D G
+    { name: "Drop D", midi: [26, 33, 38, 43] }, // D A D G
+    { name: "Meio tom abaixo", midi: [27, 32, 37, 42] },
+  ],
+};
+
+export const strings = (tuning) => tuning.midi.map(noteFromMidi);
 
 /** Frequência → nota mais próxima, desvio em cents e índice da corda mais próxima. */
-export function read(frequency) {
+export function read(frequency, strings) {
   const note = noteFromMidi(Math.round(69 + 12 * Math.log2(frequency / 440)));
   const cents = 1200 * Math.log2(frequency / note.frequency);
   const dist = (s) => Math.abs(Math.log2(frequency / s.frequency));
-  const string = STRINGS.reduce((best, s, i) => (dist(s) < dist(STRINGS[best]) ? i : best), 0);
+  const string = strings.reduce((best, s, i) => (dist(s) < dist(strings[best]) ? i : best), 0);
   return { frequency, note, cents, string };
 }
 

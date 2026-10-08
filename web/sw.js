@@ -5,7 +5,8 @@ const FILES = ["./", "index.html", "app.js", "tuner.js", "manifest.webmanifest",
 self.addEventListener("install", (e) => e.waitUntil(caches.open("afinador").then((c) => c.addAll(FILES))));
 
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
+  // Só os arquivos do próprio site; o contador (outro endereço) vai sempre direto à internet.
+  if (e.request.method !== "GET" || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(caches.open("afinador").then(async (cache) => {
     const cached = await cache.match(e.request);
     const fresh = fetch(e.request)

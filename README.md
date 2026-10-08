@@ -1,4 +1,4 @@
-# Afinador de violão 🎸
+# Afinador de violão e baixo 🎸
 
 Um afinador **simples**: abra, toque uma corda e veja se está afinada.
 Sem anúncios, sem cadastro. Só o microfone.
@@ -8,7 +8,15 @@ Funciona no **Android**, no **iPhone** e no **Windows** (e também no Mac e no L
 - Mostra a nota que você tocou, em letras grandes.
 - O ponteiro fica **verde** quando a corda está afinada.
 - Diz se é para **apertar** ou **afrouxar** a corda.
-- Afinação padrão: E A D G B E (Mi Lá Ré Sol Si Mi).
+- **Violão** ou **baixo**, com várias afinações:
+
+| Instrumento | Afinações |
+| ----------- | --------- |
+| Violão | Padrão (E A D G B E), Drop D, Meio tom abaixo, Open G, DADGAD |
+| Baixo (4 cordas) | Padrão (E A D G), Drop D, Meio tom abaixo |
+
+- No rodapé, um contador mostra quantas visitas e quantas cordas afinadas o afinador já
+  teve, somando todo mundo.
 
 ## Instalar
 
@@ -56,7 +64,10 @@ Depois de instalar, você pode desligar de novo a permissão do passo 3 em
 
 ## Como usar
 
-Na versão web, toque em **Começar** primeiro. Depois, toque uma corda **solta** (sem apertar nenhuma casa) perto do aparelho.
+1. No alto da tela, escolha **Violão** ou **Baixo** e a afinação (por exemplo, **Drop D**).
+   O app lembra a sua escolha.
+2. Na versão web, toque em **Começar**.
+3. Toque uma corda **solta** (sem apertar nenhuma casa) perto do aparelho.
 
 | Na tela                         | O que fazer                  |
 | ------------------------------- | ---------------------------- |
@@ -64,7 +75,14 @@ Na versão web, toque em **Começar** primeiro. Depois, toque uma corda **solta*
 | Ponteiro à direita / "afrouxe"  | A corda está aguda: afrouxe a tarraxa |
 | Ponteiro verde / "Afinado!"     | Pronto, vá para a próxima corda |
 
-Embaixo aparecem as 6 cordas; a que você está tocando fica destacada.
+Embaixo aparecem as cordas da afinação escolhida; a que você está tocando fica destacada.
+
+### Privacidade
+
+O som do microfone é analisado só no seu aparelho e nunca sai dele. A única coisa enviada
+pela internet é um aviso anônimo para o contador (uma visita, uma corda afinada) ao serviço
+gratuito [Abacus](https://abacus.jasoncameron.dev). Sem internet, o afinador funciona
+normalmente e o contador apenas não aparece.
 
 ## Para quem quer mexer no código
 
@@ -79,13 +97,17 @@ com a mesma lógica:
 | Arquivo | O que faz |
 | ------- | --------- |
 | `index.html` | A tela e o visual |
-| `app.js` | Liga o microfone e atualiza a tela |
-| `tuner.js` | Descobre a frequência do som (YIN) e converte em nota e cents |
+| `app.js` | Liga o microfone, atualiza a tela e o contador |
+| `tuner.js` | Afinações, frequência do som (YIN), nota e cents |
 | `sw.js` | Guarda os arquivos no aparelho para abrir sem internet |
 | `manifest.webmanifest` | Nome e ícone quando instalado na tela de início |
 
 Para testar no computador, dentro da pasta `web/` rode `python3 -m http.server` e abra
 http://localhost:8000. Os testes rodam com `node --test web/tuner.test.js`.
+
+**Quer uma afinação nova?** Acrescente uma linha na lista `TUNINGS` em `web/tuner.js` e
+outra em `Tuning.kt` (no app Android). As cordas são escritas como notas MIDI: 40 = E2
+(Mi grave do violão), e cada número a mais sobe um semitom.
 
 ### App Android (`app/`)
 
@@ -94,7 +116,8 @@ http://localhost:8000. Os testes rodam com `node --test web/tuner.test.js`.
 | `MainActivity.kt` | A tela: mostra a nota, o ponteiro e as cordas |
 | `AudioInput.kt` | Lê o microfone e envia a frequência para a tela |
 | `PitchDetector.kt` | Descobre a frequência do som (algoritmo [YIN](https://pt.wikipedia.org/wiki/Algoritmo_YIN)) |
-| `Tuning.kt` | Converte a frequência em nota e mede o quanto está desafinada |
+| `Tuning.kt` | Afinações; converte a frequência em nota e mede o quanto está desafinada |
+| `Counter.kt` | Contador anônimo de visitas e cordas afinadas |
 | `TunerView.kt` | Desenha o ponteiro |
 
 Ficam em `app/src/main/java/com/ranierimattos/afinador/`. Os textos da tela estão em
